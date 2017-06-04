@@ -1,7 +1,8 @@
-function U=solve_by_abe(h,T,A,U0,order)
+function U=solve_by_abe(partition,A,U0,order)
 d=length(A);
 I=eye(d);U=U0;AB={};
-N=length(0:h:T);
+N=length(partition);
+h=partition(2)-partition(1);
 
 AB{1}={I+h*A};
 AB{2}={I+(3*h/2)*A (-h/2)*A};
@@ -14,7 +15,7 @@ end
 
 offset=length(AB{order});
 if order>1
-  U=solve_by_abe(h,(offset-1)*h,A,U0,order-1);
+  U=solve_by_abe(0:h:h*(offset-1),A,U0,order-1);
 end
 
 for i=1:N-offset

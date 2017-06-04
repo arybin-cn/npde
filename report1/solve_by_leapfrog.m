@@ -1,5 +1,6 @@
-function U=solve_by_leapfrog(h,T,A,U0)
-d=length(A);N=length(0:h:T);
+function U=solve_by_leapfrog(partition,A,U0)
+h=partition(2)-partition(1);
+d=length(A);N=length(partition);
 I=eye(d);U=U0;M={};
 U(:,end+1)=(I+h*A)*U(:,end);
 M={2*h*A I};
