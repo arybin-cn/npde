@@ -14,6 +14,7 @@ rhs_vector_builder=@(i,U,dU) -ip2(fn_dS,U{i});
 base_builder_p1=base_fn_builder(a,b,@base_fn_p1);
 base_builder_p2=base_fn_builder(a,b,@base_fn_p2);
 
+figure;
 for k=1:4
   h=0.2/k;
   [C_p1,U_p1]=fem_framework(stf_matrix_builder,...

@@ -1,5 +1,4 @@
 format long;
-
 a=0;b=10000;alpha=10;beta=0.03;
 ip2=fn_inner_product_builder(a,b,2);
 
@@ -12,6 +11,7 @@ rhs_vector_builder=@(i,U,dU) -beta*U{i}(b);
 base_builder_p1=base_fn_builder(a,b,@base_fn_p1e);
 base_builder_p2=base_fn_builder(a,b,@base_fn_p2e);
 
+figure;
 for k=1:4
   h=2000/(2*k-1);
   [C_p1,U_p1]=fem_framework(stf_matrix_builder,...
@@ -20,13 +20,13 @@ for k=1:4
   rhs_vector_builder,base_builder_p2,h);
 
   X=a:50:b;
-  Y_p1=fem_compute(C_p1,U_p1,X);
-  Y_p2=fem_compute(C_p2,U_p2,X);
+  Y_p1=fem_compute(C_p1,U_p1,X)+1;
+  Y_p2=fem_compute(C_p2,U_p2,X)+1;
   subplot(4,2,(k-1)*2+1);
-  scatter(X,Y_p1+1,'*','r');
+  scatter(X,Y_p1,'*','r');
   title(sprintf('P1-FEM with h=%.3f',h));
   subplot(4,2,(k-1)*2+2);
-  scatter(X,Y_p2+1,'p','g');
+  scatter(X,Y_p2,'p','g');
   title(sprintf('P2-FEM with h=%.3f',h));
 end
 
