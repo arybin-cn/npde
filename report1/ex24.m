@@ -1,5 +1,9 @@
 A=[-50 49;49 -50];
 T=2; U0=[1 1]';U={}; K=3;I=3;
+exact=@(t) [exp(-t)-exp(-99*t);
+            exp(-t)+exp(-99*t)];
+X=0:0.001:T;
+Y=exact(X);
 fns={@solve_by_abe @solve_by_abi};
 types={'explicit' 'implicit'};
 
@@ -7,16 +11,14 @@ for j=1:length(fns)
   solve_method=fns{j};
   figure;
   for k=1:K
-    h=10/10^k;
+    h=10/(10*k^3);
     interval=0:h:T;
     for i=1:I
       U{i}=solve_method(interval,A,U0,i);
       subplot(K,I,(k-1)*I+i);
       scatter(interval,U{i}(1,:),'o','r');hold on;
-      plot(interval,U{i}(1,:),'r');hold on;
-      scatter(interval,U{i}(2,:),'.','g');hold on;
-      plot(interval,U{i}(2,:),'g');hold on;
-      axis([0 T -1 1.5]);
+      scatter(interval,U{i}(2,:),'p','g');hold on;
+      plot(X,Y,'b');hold on;
       title(sprintf('Adams-Bshforth(%s) order-%d with h=%.4f',types{j},i,h));
     end
   end
