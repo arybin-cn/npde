@@ -1,6 +1,6 @@
 A=-[99 7*sqrt(2);7*sqrt(2) 2];
 T=2; U0=[1 1]';U={}; K=3;I=3;
-fns={@solve_by_abe @solve_by_abi};
+fns={@solve_by_abe @solve_by_ami};
 types={'explicit' 'implicit'};
 
 for j=1:length(fns)
@@ -17,7 +17,7 @@ for j=1:length(fns)
       scatter(interval,U{i}(2,:),'.','g');hold on;
       plot(interval,U{i}(2,:),'g');hold on;
       axis([0 T -1 1.5]);
-      title(sprintf('Adams-Bshforth(%s) order-%d with h=%.4f',types{j},i,h));
+      title(sprintf('Adams(%s) order-%d with h=%.4f',types{j},i,h));
     end
   end
   set(gcf,'PaperUnits','Inches','PaperPosition',[0 0 15 15]);

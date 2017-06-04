@@ -1,4 +1,4 @@
-function U=solve_by_abi(partition,A,U0,order)
+function U=solve_by_ami(partition,A,U0,order)
 d=length(A);
 I=eye(d);U=U0;AB={};
 N=length(partition);
@@ -17,7 +17,7 @@ end
 
 offset=length(AB{order});
 if order>2
-  U=solve_by_abe(0:h:(offset-1)*h,A,U0,order-1);
+  U=solve_by_ami(0:h:(offset-1)*h,A,U0,order-1);
 end
 
 for i=1:N-offset

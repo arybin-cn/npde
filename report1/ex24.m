@@ -4,7 +4,7 @@ exact=@(t) [exp(-t)-exp(-99*t);
             exp(-t)+exp(-99*t)];
 X=0:0.001:T;
 Y=exact(X);
-fns={@solve_by_abe @solve_by_abi};
+fns={@solve_by_abe @solve_by_ami};
 types={'explicit' 'implicit'};
 
 for j=1:length(fns)
@@ -19,7 +19,7 @@ for j=1:length(fns)
       scatter(interval,U{i}(1,:),'o','r');hold on;
       scatter(interval,U{i}(2,:),'p','g');hold on;
       plot(X,Y,'b');hold on;
-      title(sprintf('Adams-Bshforth(%s) order-%d with h=%.4f',types{j},i,h));
+      title(sprintf('Adams(%s) order-%d with h=%.4f',types{j},i,h));
     end
   end
   set(gcf,'PaperUnits','Inches','PaperPosition',[0 0 15 15]);
