@@ -1,6 +1,6 @@
 function Y=fem_compute(C,U,X)
 dimension=length(U);Y=[];
-if length(C)!=dimension
+if length(C)~=dimension
   error('Incompatible dimension!')
   return;
 end
