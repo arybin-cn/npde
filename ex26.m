@@ -1,32 +1,31 @@
 format long;
-h=200;m=10000;
-A=[];F=[];C=[];
-figure;
-[U,V]=base_fn_p1(0,m+h,h);
-dimension=length(U);
-disp(dimension);
 
-p=fn_inner_product_builder(0,m);
-for i=1:dimension
-    for j=1:dimension
-      A(i,j)=p(fn_multiply(@(x) 10,V{i}),V{j})+...
-             p(fn_multiply(@(x) 0.03,U{i}),V{j});
-  end
+a=0;b=10000;alpha=10;beta=0.03;
+ip2=fn_inner_product_builder(a,b,2);
+
+stf_matrix_builder=@(i,j,U,dU) alpha*ip2(dU{i},dU{j})+beta*ip2(U{i},dU{j});
+rhs_vector_builder=@(i,U,dU) -beta*U{i}(b);
+
+base_builder_p1=base_fn_builder(a,b,@base_fn_p1e);
+base_builder_p2=base_fn_builder(a,b,@base_fn_p2e);
+
+for k=1:4
+  h=2000/(2*k-1);
+  [C_p1,U_p1]=fem_framework(stf_matrix_builder,...
+  rhs_vector_builder,base_builder_p1,h);
+  [C_p2,U_p2]=fem_framework(stf_matrix_builder,...
+  rhs_vector_builder,base_builder_p2,h);
+
+  X=a:50:b;
+  Y_p1=fem_compute(C_p1,U_p1,X);
+  Y_p2=fem_compute(C_p2,U_p2,X);
+  subplot(4,2,(k-1)*2+1);
+  scatter(X,Y_p1+1,'*','r');
+  title(sprintf('P1-FEM with h=%.3f',h));
+  subplot(4,2,(k-1)*2+2);
+  scatter(X,Y_p2+1,'p','g');
+  title(sprintf('P2-FEM with h=%.3f',h));
 end
 
-for j=1:dimension
-  F(j)=-0.03*U{j}(m);
-end
-
-C=A\F';
-
-X=0:10:m;
-Y_FEM=[];
-for i=1:length(X)
-  Y_FEM(i)=1;
-  for j=1:dimension
-    Y_FEM(i)=Y_FEM(i)+U{j}(X(i))*C(j);
-  end
-end
-scatter(X,Y_FEM,'*','r');hold on;
-saveas(gcf,'ex26.png');
+set(gcf,'PaperUnits','Inches','PaperPosition',[0 0 10 20]);
+print('-djpeg','-r100','ex26');
