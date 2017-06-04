@@ -1,15 +1,19 @@
 format long;
-h=0.05;
+%min h 0.02
+h=0.02;
 A=[];F=[];C=[];
 fn_S36=@(x) ((1-(3/2)*x+(9/8)*x.^2).^3)/6;
 fn_SS=@(x) (9/4)*x-3/2;
 figure;
-[U,V]=base_fn_p1(0,1,h);
+[U,V]=base_fn_p2(0,1,h);
 dimension=length(U);
 
 p=fn_inner_product_builder(0,1);
 for i=1:dimension
     for j=1:dimension
+      if abs(i-j)>4
+        continue;
+      end
       A(i,j)=p(fn_multiply(fn_S36,V{j}),V{i});
   end
 end

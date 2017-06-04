@@ -1,7 +1,7 @@
 format long;
-h=0.1;
+h=0.02;
 A=[];F=[];C=[];
-ep=0.1;beta=10;
+ep=0.1;beta=5;
 figure;
 [U,V]=base_fn_p1(0,1,h);
 dimension=length(U);
@@ -33,7 +33,9 @@ for i=1:length(X)
     Y_FEM(i)=Y_FEM(i)+U{j}(X(i))*C(j);
   end
 end
+plot(X,Y_EXACT,'g');hold on;
 scatter(X,Y_EXACT,'o','g');hold on;
+plot(X,Y_FEM,'r');hold on;
 scatter(X,Y_FEM,'*','r');hold on;
 norm(Y_EXACT-Y_FEM,2)
 
