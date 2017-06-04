@@ -4,9 +4,12 @@ a=0;b=1;ep=0.1;beta=5;
 ip2=fn_inner_product_builder(a,b,2);
 ip1=fn_inner_product_builder(a,b,1);
 
+%Assume (-,-) as function inner product, then:
+%A(i,j)=ep(Ui',Vj')+beta(Ui,Vj')
 stf_matrix_builder=@(i,j,U,dU) ep*ip2(dU{i},dU{j})+beta*ip2(U{i},dU{j});
+%F(i)=-beta(integral Vi)
 rhs_vector_builder=@(i,U,dU) -beta*ip1(U{i});
-
+%Use normal Sobolev 1/2-order polynominal
 base_builder_p1=base_fn_builder(a,b,@base_fn_p1);
 base_builder_p2=base_fn_builder(a,b,@base_fn_p2);
 

@@ -1,13 +1,16 @@
 format long;
-a=0;b=1;fn_SS=@(x) (9/4)*x-3/2;
+a=0;b=1;fn_dS=@(x) (9/4)*x-3/2;
 fn_S36=@(x) ((1-(3/2)*x+(9/8)*x.^2).^3)/6;
 
 ip3=fn_inner_product_builder(a,b,3);
 ip2=fn_inner_product_builder(a,b,2);
 
+%Assume (-,-) as function inner product, then:
+%A(i,j)=(integral Ui'Vj'S^3/6)
 stf_matrix_builder=@(i,j,U,dU) ip3(fn_S36,dU{j},dU{i});
-rhs_vector_builder=@(i,U,dU) -ip2(fn_SS,U{i});
-
+%F(i)=-(S',Vi)
+rhs_vector_builder=@(i,U,dU) -ip2(fn_dS,U{i});
+%Use normal Sobolev 1/2-order polynominal
 base_builder_p1=base_fn_builder(a,b,@base_fn_p1);
 base_builder_p2=base_fn_builder(a,b,@base_fn_p2);
 
